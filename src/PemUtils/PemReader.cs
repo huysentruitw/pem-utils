@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using DerConverter;
+using DerConverter.Asn;
 
 namespace PemUtils
 {
@@ -37,7 +38,15 @@ namespace PemUtils
                 // TODO check header / footer
 
                 var derData = Convert.FromBase64String(parts.Groups["body"].Value);
-                var der = DerConvert.Decode(derData);
+                var outer_der = DerConvert.Decode(derData);
+
+                var modulus_and_exponent = DerConvert.Decode((outer_der.Value as DerAsnType[])[1].Value as byte[]).Value as DerAsnType[];
+                return new RSAParameters
+                {
+                    Modulus = modulus_and_exponent[0].Value as byte[],
+                    Exponent = modulus_and_exponent[1].Value as byte[]
+                };
+                
             }
 
             throw new NotImplementedException();
