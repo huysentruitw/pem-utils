@@ -59,7 +59,7 @@ namespace PemUtils
             };
         }
 
-        private PemFormat ExtractFormat(string headerOrFooter, bool isFooter)
+        private static PemFormat ExtractFormat(string headerOrFooter, bool isFooter)
         {
             var beginOrEnd = isFooter ? "END" : "BEGIN";
             var match = Regex.Match(headerOrFooter, $@"({beginOrEnd})\s+(?<format>[^-]+)", RegexOptions.IgnoreCase);
@@ -67,7 +67,7 @@ namespace PemUtils
             return PemFormat.Parse(match.Groups["format"].Value.Trim());
         }
 
-        private RSAParameters ReadPublicKey(DerAsnType der)
+        private static RSAParameters ReadPublicKey(DerAsnType der)
         {
             if (der == null) throw new ArgumentNullException(nameof(der));
             var outerSequence = der as DerAsnSequence;
@@ -96,7 +96,7 @@ namespace PemUtils
             };
         }
 
-        private RSAParameters ReadPrivateKey(DerAsnType der)
+        private static RSAParameters ReadPrivateKey(DerAsnType der)
         {
             if (der == null) throw new ArgumentNullException(nameof(der));
             var sequence = der as DerAsnSequence;
@@ -115,7 +115,7 @@ namespace PemUtils
             };
         }
 
-        private byte[] GetIntegerData(DerAsnType der)
+        private static byte[] GetIntegerData(DerAsnType der)
         {
             var data = (der as DerAsnInteger)?.Value as byte[];
             if (data == null) throw new InvalidOperationException("Part does not contain integer data");
