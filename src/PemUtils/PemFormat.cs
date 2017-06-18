@@ -1,17 +1,58 @@
-﻿namespace PemUtils
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+
+namespace PemUtils
 {
     public class PemFormat
     {
+        private static List<PemFormat> KnownFormatsCache = null;
+
         private readonly string _type;
+
+        public string Header => $"-----BEGIN {_type}-----";
+
+        public string Footer => $"-----END {_type}-----";
 
         private PemFormat(string type)
         {
             _type = type;
         }
 
-        public string Header => $"-----BEGIN {_type}-----";
+        public override bool Equals(object obj)
+        {
+            var other = obj as PemFormat;
+            if (other == null) return false;
+            return string.Equals(_type, other._type, StringComparison.OrdinalIgnoreCase);
+        }
 
-        public string Footer => $"-----END {_type}-----";
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString() => _type;
+
+        public static PemFormat Parse(string typeString)
+        {
+            var format = new PemFormat(typeString);
+            var knownFormat = GetKnownFormats().FirstOrDefault(x => x.Equals(format));
+            if (knownFormat == null) throw new InvalidOperationException($"Unknown format: {typeString}");
+            return knownFormat;
+        }
+
+        private static List<PemFormat> GetKnownFormats()
+        {
+            if (KnownFormatsCache != null) return KnownFormatsCache;
+            return KnownFormatsCache = typeof(PemFormat)
+                .GetProperties(BindingFlags.Static | BindingFlags.Public)
+                .Where(x => x.PropertyType == typeof(PemFormat))
+                .Select(x => (PemFormat)x.GetValue(null))
+                .ToList();
+        }
+
+        #region Static formats
 
         public static PemFormat X509CertificateOld => new PemFormat("X509 CERTIFICATE");
 
@@ -62,5 +103,7 @@
         public static PemFormat Parameters => new PemFormat("PARAMETERS");
 
         public static PemFormat Cms => new PemFormat("CMS");
+
+        #endregion
     }
 }
