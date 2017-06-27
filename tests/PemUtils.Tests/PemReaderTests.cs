@@ -9,7 +9,7 @@ namespace PemUtils.Tests
     public class PemReaderTests
     {
         [Test]
-        public void ReadPublicKey()
+        public void ReadRsaKey_PublicKey_WithLinuxLineEndings()
         {
             var pem = "-----BEGIN PUBLIC KEY-----\n"
                 + "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsiLoIxmXaZAFRBKtHYZh\n"
@@ -35,7 +35,7 @@ namespace PemUtils.Tests
         }
 
         [Test]
-        public void ReadPrivateKey()
+        public void ReadRsaKey_PrivateKey_WithLinuxLineEndings()
         {
             var pem = "-----BEGIN RSA PRIVATE KEY-----\n"
                 +"MIIEpAIBAAKCAQEAzw2rOycv+DqPhxJ/XZDsALH0WIn/Yyk97TGKhYME6CuybqlJ\n"
@@ -91,7 +91,7 @@ namespace PemUtils.Tests
         }
 
         [Test]
-        public void ReadKeyWithCrLfLineEnding()
+        public void ReadRsaKey_PublicKey_WithWindowsLineEndings()
         {
             var pem = "-----BEGIN PUBLIC KEY-----\r\n"
                 + "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsiLoIxmXaZAFRBKtHYZh\r\n"
