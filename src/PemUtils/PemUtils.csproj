@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="PemFormat.cs" />
     <Compile Include="PemReader.cs" />
     <Compile Include="PemWriter.cs" />

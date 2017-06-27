@@ -49,12 +49,12 @@ namespace PemUtils
 
         private static PemParts ExtractPemParts(string pem)
         {
-            var match = Regex.Match(pem, @"^(?<header>\-+\s?BEGIN[^-]+\-+)\r?\s*(?<body>[^-]+)\r?(?<footer>\-+\s?END[^-]+\-+)\r?$");
+            var match = Regex.Match(pem, @"^(?<header>\-+\s?BEGIN[^-]+\-+)\s*(?<body>[^-]+)\s*(?<footer>\-+\s?END[^-]+\-+)\s*$");
             if (!match.Success) throw new InvalidOperationException("Data on the stream doesn't match the required PEM format");
             return new PemParts
             {
                 Header = match.Groups["header"].Value,
-                Body = match.Groups["body"].Value,
+                Body = match.Groups["body"].Value.RemoveWhitespace(),
                 Footer = match.Groups["footer"].Value
             };
         }
