@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DerConverter", "src\DerConverter\DerConverter.csproj", "{FFADCCF7-5032-401E-AF14-12004635A862}"
 EndProject
@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3BAB1F50-4661-4192-89DC-9E7D1F9854CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{22BCC6EE-EC8E-481D-A9F9-943DE966D441}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,5 +46,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FFADCCF7-5032-401E-AF14-12004635A862} = {3BAB1F50-4661-4192-89DC-9E7D1F9854CE}
+		{0FDDAEDA-572E-41D5-9445-C84216226917} = {22BCC6EE-EC8E-481D-A9F9-943DE966D441}
+		{0226693D-558D-4F03-89D6-15CA764814CA} = {3BAB1F50-4661-4192-89DC-9E7D1F9854CE}
+		{C21C039B-D3AD-49F7-814D-456D139FEDE3} = {22BCC6EE-EC8E-481D-A9F9-943DE966D441}
 	EndGlobalSection
 EndGlobal
