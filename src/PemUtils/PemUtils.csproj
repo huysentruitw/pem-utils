@@ -8,7 +8,7 @@
     <Copyright>Copyright © 2017 Wouter Huysentruit</Copyright>
     <AssemblyName>PemUtils</AssemblyName>
     <PackageId>PemUtils</PackageId>
-    <PackageVersion>$version$</PackageVersion>
+    <PackageVersion>1.0.0</PackageVersion>
     <PackageProjectUrl>https://github.com/huysentruitw/pem-utils</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/huysentruitw/pem-utils/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
