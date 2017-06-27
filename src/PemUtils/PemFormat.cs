@@ -45,7 +45,7 @@ namespace PemUtils
         private static List<PemFormat> GetKnownFormats()
         {
             if (KnownFormatsCache != null) return KnownFormatsCache;
-            return KnownFormatsCache = typeof(PemFormat)
+            return KnownFormatsCache = typeof(PemFormat).GetTypeInfo()
                 .GetProperties(BindingFlags.Static | BindingFlags.Public)
                 .Where(x => x.PropertyType == typeof(PemFormat))
                 .Select(x => (PemFormat)x.GetValue(null))
