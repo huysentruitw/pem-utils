@@ -2,13 +2,13 @@
   <PropertyGroup>
     <Title>DerConverter</Title>
     <Description>DER/ASN.1 Converter</Description>
-    <VersionPrefix>1.0.0</VersionPrefix>
     <Authors>Wouter Huysentruit</Authors>
     <Company>Huysentruit</Company>
     <Product>DerConverter</Product>
     <Copyright>Copyright © 2017 Wouter Huysentruit</Copyright>
     <AssemblyName>DerConverter</AssemblyName>
     <PackageId>DerConverter</PackageId>
+    <PackageVersion>$version$</PackageVersion>
     <PackageProjectUrl>https://github.com/huysentruitw/pem-utils</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/huysentruitw/pem-utils/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
