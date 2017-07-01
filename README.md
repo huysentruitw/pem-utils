@@ -24,7 +24,7 @@ using (var stream = File.OpenRead(path))
 using (var reader = new PemReader(stream))
 {
     var rsaParameters = reader.ReadRsaKey();
-	// ...
+    // ...
 }
 ```
  
@@ -34,7 +34,7 @@ using (var reader = new PemReader(stream))
 using (var stream = File.Create(path))
 using (var writer = new PemWriter(stream))
 {
-	// ...
-	writer.WritePublicKey(rsaParameters);
+    // ...
+    writer.WritePublicKey(rsaParameters);
 }
 ```
