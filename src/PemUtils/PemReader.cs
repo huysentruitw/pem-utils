@@ -12,12 +12,14 @@ namespace PemUtils
     {
         private readonly Stream _stream;
         private readonly bool _disposeStream;
+        private Encoding _encoding;
 
-        public PemReader(Stream stream, bool disposeStream = false)
+        public PemReader(Stream stream, bool disposeStream = false, Encoding encoding = null)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
             _stream = stream;
             _disposeStream = disposeStream;
+            _encoding = encoding ?? Encoding.UTF8;
         }
 
         public void Dispose()
@@ -43,7 +45,7 @@ namespace PemUtils
 
         private PemParts ReadPemParts()
         {
-            using (var reader = new StreamReader(_stream, Encoding.UTF8, true, 4096, true))
+            using (var reader = new StreamReader(_stream, _encoding, true, 4096, true))
                 return ExtractPemParts(reader.ReadToEnd());
         }
 

@@ -12,14 +12,16 @@ namespace PemUtils
         private Stream _stream;
         private int _maximumLineLength;
         private bool _disposeStream;
+        private Encoding _encoding;
 
-        public PemWriter(Stream stream, int maximumLineLength = 64, bool disposeStream = false)
+        public PemWriter(Stream stream, int maximumLineLength = 64, bool disposeStream = false, Encoding encoding = null)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
             if (maximumLineLength < 32) throw new ArgumentOutOfRangeException(nameof(maximumLineLength), "Length should be bigger than or equal to 32");
             _stream = stream;
             _maximumLineLength = maximumLineLength;
             _disposeStream = disposeStream;
+            _encoding = encoding ?? Encoding.UTF8;
         }
 
         public void Dispose()
@@ -85,7 +87,7 @@ namespace PemUtils
             }
             pem.Append(format.Footer + "\n");
 
-            using (var writer = new StreamWriter(_stream, Encoding.UTF8, 4096, true))
+            using (var writer = new StreamWriter(_stream, _encoding, 4096, true))
                 writer.Write(pem.ToString());
         }
     }
