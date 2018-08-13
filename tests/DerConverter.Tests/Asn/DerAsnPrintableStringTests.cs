@@ -1,6 +1,6 @@
-﻿using DerConverter.Asn;
+﻿using System.Linq;
+using DerConverter.Asn;
 using NUnit.Framework;
-using System.Linq;
 
 namespace DerConverter.Tests.Asn
 {
@@ -18,13 +18,13 @@ namespace DerConverter.Tests.Asn
             var type = DerAsnPrintableString.Parse(data);
             Assert.That(type is DerAsnPrintableString, Is.True);
 
-            Assert.That(type.Value, Is.EqualTo(data.Skip(2).ToArray()));
+            Assert.That(type.Value, Is.EqualTo("US"));
         }
 
         [Test]
         public void DerAsnPrintableString_GetBytes_ShouldEncodeCorrectly()
         {
-            var type = new DerAsnPrintableString(new byte[] { 0x55, 0x53 });
+            var type = new DerAsnPrintableString("US");
 
             var data = type.GetBytes();
 
