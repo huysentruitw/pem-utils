@@ -8,7 +8,7 @@ namespace DerConverter.Tests.Asn
     public class DerAsnPrintableStringTests
     {
         [Test]
-        public void DerAsnPrintable_Parse_ShouldDecodeCorrectly()
+        public void DerAsnPrintableString_Parse_ShouldDecodeCorrectly()
         {
             var data = new byte[]
             {
@@ -22,7 +22,7 @@ namespace DerConverter.Tests.Asn
         }
 
         [Test]
-        public void DerAsnPrintable_GetBytes_ShouldEncodeCorrectly()
+        public void DerAsnPrintableString_GetBytes_ShouldEncodeCorrectly()
         {
             var type = new DerAsnPrintableString(new byte[] { 0x55, 0x53 });
 
