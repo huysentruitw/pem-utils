@@ -11,6 +11,7 @@
         Utf8String = 0x0C,
         PrintableString = 0x13,
         Ia5tring = 0x16,
+        UtcTime = 0x17,
         UnicodeString = 0x1E,
         Sequence = 0x30,
         Set = 0x31

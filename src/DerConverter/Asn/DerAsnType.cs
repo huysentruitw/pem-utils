@@ -53,6 +53,7 @@ namespace DerConverter.Asn
                 case DerAsnTypeTag.Ia5tring: throw new NotImplementedException();
                 case DerAsnTypeTag.UnicodeString: throw new NotImplementedException();
                 case DerAsnTypeTag.Sequence: return new DerAsnSequence(typeData);
+                case DerAsnTypeTag.UtcTime: return new DerAsnUtcTime(typeData);
                 case DerAsnTypeTag.Set: return new DerAsnSet(typeData);
                 default:
                     throw new NotImplementedException($"Type tag {typeTag} not implemented");
