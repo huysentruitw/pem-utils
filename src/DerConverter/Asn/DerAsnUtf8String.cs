@@ -24,11 +24,7 @@ namespace DerConverter.Asn
         }
 
         public override object Value => Encoding.UTF8.GetString(_bytes.ToArray());
-
-        public override string ToString()
-        {
-            return $"{this.Value} (DerAsnUtf8String)";
-        }
+        
 
         protected override byte[] InternalGetBytes()
         {

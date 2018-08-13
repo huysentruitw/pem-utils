@@ -25,11 +25,6 @@ namespace DerConverter.Asn
 
         public override object Value => Encoding.ASCII.GetString(_bytes.ToArray());
 
-        public override string ToString()
-        {
-            return $"{this.Value} (DerAsnPrintableString)";
-        }
-
         protected override byte[] InternalGetBytes()
         {
             return _bytes.ToArray();
