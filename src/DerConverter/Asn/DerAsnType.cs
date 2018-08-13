@@ -48,8 +48,8 @@ namespace DerConverter.Asn
                 case DerAsnTypeTag.OctetString: return new DerAsnOctetString(typeData);
                 case DerAsnTypeTag.Null: return new DerAsnNull(typeData);
                 case DerAsnTypeTag.ObjectIdentifier: return new DerAsnObjectIdentifier(typeData);
-                case DerAsnTypeTag.Utf8String: throw new NotImplementedException();
-                case DerAsnTypeTag.PrintableString: throw new NotImplementedException();
+                case DerAsnTypeTag.Utf8String: return new DerAsnUtf8String(typeData);
+                case DerAsnTypeTag.PrintableString: return new DerAsnPrintableString(typeData);
                 case DerAsnTypeTag.Ia5tring: throw new NotImplementedException();
                 case DerAsnTypeTag.UnicodeString: throw new NotImplementedException();
                 case DerAsnTypeTag.Sequence: return new DerAsnSequence(typeData);
