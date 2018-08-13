@@ -2,6 +2,7 @@
 {
     public enum DerAsnTypeTag : byte
     {
+        // Primitive (bit 5: 0)
         Boolean = 0x01,
         Integer = 0x02,
         BitString = 0x03,
@@ -12,6 +13,8 @@
         PrintableString = 0x13,
         Ia5tring = 0x16,
         UnicodeString = 0x1E,
+
+        // Constructed (bit 5: 1)
         Sequence = 0x30,
         Set = 0x31
     }
