@@ -15,7 +15,7 @@ namespace DerConverter.Asn
             while (rawData.Any()) _items.Add(DerAsnType.Parse(rawData));
         }
 
-        public DerAsnSequence(DerAsnType[] items)
+        public DerAsnSequence(params DerAsnType[] items)
             : base(DerAsnTypeTag.Sequence)
         {
             if (items == null) throw new ArgumentNullException(nameof(items));
@@ -24,7 +24,7 @@ namespace DerConverter.Asn
 
         public override object Value => _items.ToArray();
 
-        public IReadOnlyList<DerAsnType> Items => _items;
+        public IList<DerAsnType> Items => _items;
 
         protected override byte[] InternalGetBytes()
         {
