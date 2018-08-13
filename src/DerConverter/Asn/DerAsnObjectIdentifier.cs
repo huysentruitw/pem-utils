@@ -31,7 +31,14 @@ namespace DerConverter.Asn
             if (_nodes[1] > 39) throw new ArgumentOutOfRangeException(nameof(value), "Second value should not be greater than 39");
         }
 
-        public override object Value => string.Join(".", _nodes.Select(x => x.ToString()));
+        public override object Value => Id;
+
+        public string Id => string.Join(".", _nodes.Select(x => x.ToString()));
+
+        public override string ToString()
+        {
+            return $"{this.Value} (DerAsnObjectIdentifier)";
+        }
 
         protected override byte[] InternalGetBytes()
         {
