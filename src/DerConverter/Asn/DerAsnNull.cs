@@ -20,9 +20,6 @@ namespace DerConverter.Asn
 
         public override object Value => null;
 
-        protected override byte[] InternalGetBytes()
-        {
-            return Enumerable.Empty<byte>().ToArray();
-        }
+        protected override byte[] InternalGetBytes() => new byte[0];
     }
 }
