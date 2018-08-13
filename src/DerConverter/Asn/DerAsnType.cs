@@ -36,11 +36,15 @@ namespace DerConverter.Asn
 
         internal static DerAsnType Parse(Queue<byte> data)
         {
-            var typeTag = (DerAsnTypeTag)data.Dequeue();
+            var identifier = data.Dequeue();
             var typeDataLength = data.DequeueDerLength();
             var typeData = new Queue<byte>(data.Dequeue(typeDataLength));
 
-            switch (typeTag)
+            // See https://docs.ldap.com/ldap-sdk/docs/ldap-wire-protocol-reference/asn1-ber.html
+            if (GetTagClass(identifier) != DerAsnTypeTagClass.Universal)
+                throw new NotImplementedException($"Tag class {GetTagClass(identifier)} not supported");
+
+            switch (GetTag(identifier))
             {
                 case DerAsnTypeTag.Boolean: return new DerAsnBoolean(typeData);
                 case DerAsnTypeTag.Integer: return new DerAsnInteger(typeData);
@@ -55,8 +59,25 @@ namespace DerConverter.Asn
                 case DerAsnTypeTag.Sequence: return new DerAsnSequence(typeData);
                 case DerAsnTypeTag.Set: return new DerAsnSet(typeData);
                 default:
-                    throw new NotImplementedException($"Type tag {typeTag} not implemented");
+                    throw new NotImplementedException($"Type tag {identifier} not implemented");
             }
         }
+
+        /// <summary>
+        /// Gets the tag class.
+        /// </summary>
+        /// <param name="identifier">The identifier byte.</param>
+        /// <returns>The tag class.</returns>
+        private static DerAsnTypeTagClass GetTagClass(byte identifier)
+            => (DerAsnTypeTagClass)(identifier >> 6);
+
+        /// <summary>
+        /// Gets the tag including encoding bit.
+        /// Bit 5: primitive(0) / constructed(1)
+        /// </summary>
+        /// <param name="identifier">The identifier byte.</param>
+        /// <returns>The tag including encoding bit.</returns>
+        private static DerAsnTypeTag GetTag(byte identifier)
+            => (DerAsnTypeTag)(identifier & 0x3F); 
     }
 }
