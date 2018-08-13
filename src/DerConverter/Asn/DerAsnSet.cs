@@ -24,7 +24,7 @@ namespace DerConverter.Asn
 
         public override object Value => _items.ToArray();
 
-        public IList<DerAsnType> Items => _items;
+        public IReadOnlyList<DerAsnType> Items => _items;
 
         protected override byte[] InternalGetBytes()
         {
