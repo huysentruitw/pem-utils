@@ -13,6 +13,7 @@
         Ia5tring = 0x16,
         UnicodeString = 0x1E,
         Sequence = 0x30,
-        Set = 0x31
+        Set = 0x31,
+        ContextSpecific = 0xA0
     }
 }
