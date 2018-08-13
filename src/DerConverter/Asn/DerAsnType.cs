@@ -40,6 +40,14 @@ namespace DerConverter.Asn
             var typeDataLength = data.DequeueDerLength();
             var typeData = new Queue<byte>(data.Dequeue(typeDataLength));
 
+            // Higher bits indicate the tag is context specific; lower bits indicate the tag value.
+            // E.g. "0xA0" => Context Specific (0),
+            //      "0xA3" => Context Specific (3)
+            if ((typeTag & DerAsnTypeTag.ContextSpecific) == DerAsnTypeTag.ContextSpecific)
+            {
+                return new DerAsnContextSpecific(typeTag, typeData);
+            }
+
             switch (typeTag)
             {
                 case DerAsnTypeTag.Boolean: return new DerAsnBoolean(typeData);
