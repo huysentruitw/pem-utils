@@ -15,7 +15,7 @@ namespace DerConverter.Asn
             while (rawData.Any()) _items.Add(DerAsnType.Parse(rawData));
         }
 
-        public DerAsnSequence(DerAsnType[] items)
+        public DerAsnSequence(params DerAsnType[] items)
             : base(DerAsnTypeTag.Sequence)
         {
             if (items == null) throw new ArgumentNullException(nameof(items));
