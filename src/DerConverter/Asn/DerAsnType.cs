@@ -55,7 +55,7 @@ namespace DerConverter.Asn
                 case DerAsnTypeTag.Utf8String: return new DerAsnUtf8String(typeData);
                 case DerAsnTypeTag.PrintableString: return new DerAsnPrintableString(typeData);
                 case DerAsnTypeTag.Ia5tring: throw new NotImplementedException();
-                case DerAsnTypeTag.UnicodeString: throw new NotImplementedException();
+                case DerAsnTypeTag.BmpString: throw new NotImplementedException();
                 case DerAsnTypeTag.Sequence: return new DerAsnSequence(typeData);
                 case DerAsnTypeTag.Set: return new DerAsnSet(typeData);
                 default:

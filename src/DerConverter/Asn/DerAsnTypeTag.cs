@@ -12,7 +12,7 @@
         Utf8String = 0x0C,
         PrintableString = 0x13,
         Ia5tring = 0x16,
-        UnicodeString = 0x1E,
+        BmpString = 0x1E,
 
         // Constructed (bit 5: 1)
         Sequence = 0x30,
