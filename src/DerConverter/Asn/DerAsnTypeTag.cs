@@ -13,6 +13,7 @@
         PrintableString = 0x13,
         TeletexString = 0x14,
         Ia5tring = 0x16,
+        UtcTime = 0x17,
         BmpString = 0x1E,
 
         // Constructed (bit 5: 1)
