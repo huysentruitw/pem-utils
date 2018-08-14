@@ -15,10 +15,36 @@ namespace DerConverter.Asn
             _bytes.AddRange(rawData.DequeueAll());
         }
 
-        public DerAsnUtcTime(DateTime time)
+        public DerAsnUtcTime(DateTimeOffset time, bool includeSeconds = true)
             : base(DerAsnTypeTag.UtcTime)
         {
-            var timeAsString = $"{time.ToString("yyMMddHHmmss")}Z";
+            string timeAsString = null;
+
+            if (time.Offset == TimeSpan.Zero)
+            {
+                if (includeSeconds)
+                {
+                    timeAsString = $"{time:yyMMddHHmmss}Z";
+                }
+                else
+                {
+                    timeAsString = $"{time:yyMMddHHmm}Z";
+                }
+            }
+            else
+            {
+                var offsetPrefix = time.Offset > TimeSpan.Zero ? '+' : '-';
+
+                if (includeSeconds)
+                {
+                    timeAsString = $"{time:yyMMddHHmmss}{offsetPrefix}{time.Offset:hhmm}";
+                }
+                else
+                {
+                    timeAsString = $"{time:yyMMddHHmm}{offsetPrefix}{time.Offset:hhmm}";
+                }
+            }
+
             var timeBytes = Encoding.ASCII.GetBytes(timeAsString);
             _bytes.AddRange(timeBytes);
         }
