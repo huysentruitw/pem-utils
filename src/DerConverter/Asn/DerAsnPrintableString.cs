@@ -1,33 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace DerConverter.Asn
 {
     public class DerAsnPrintableString : DerAsnType
     {
-        private readonly List<byte> _bytes;
+        private readonly List<byte> _bytes = new List<byte>();
 
         internal DerAsnPrintableString(Queue<byte> rawData)
             : base(DerAsnTypeTag.PrintableString)
         {
             if (rawData == null) throw new ArgumentNullException(nameof(rawData));
-            _bytes = rawData.DequeueAll().ToList();
+            _bytes.AddRange(rawData.DequeueAll());
         }
 
-        public DerAsnPrintableString(byte[] bytes)
+        public DerAsnPrintableString(string value)
             : base(DerAsnTypeTag.PrintableString)
         {
-            if (bytes == null) throw new ArgumentNullException(nameof(bytes));
-            _bytes = bytes.ToList();
+            if (value == null) throw new ArgumentNullException(nameof(value));
+            _bytes.AddRange(Encoding.ASCII.GetBytes(value));
         }
 
         public override object Value => Encoding.ASCII.GetString(_bytes.ToArray());
 
-        protected override byte[] InternalGetBytes()
-        {
-            return _bytes.ToArray();
-        }
+        protected override byte[] InternalGetBytes() => _bytes.ToArray();
     }
 }
