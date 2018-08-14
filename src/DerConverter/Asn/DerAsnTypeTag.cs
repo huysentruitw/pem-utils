@@ -11,6 +11,7 @@
         ObjectIdentifier = 0x06,
         Utf8String = 0x0C,
         PrintableString = 0x13,
+        TeletexString = 0x14,
         Ia5tring = 0x16,
         BmpString = 0x1E,
 
