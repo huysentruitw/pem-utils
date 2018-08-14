@@ -23,7 +23,7 @@ namespace DerConverter.Asn
             var result = new List<byte>();
             result.Add((byte)Tag);
 
-            if (indefiniteLength)
+            if (this.UseIndefiniteLengthEncoding)
             {
                 result.Add(0x80);
             }
@@ -34,7 +34,7 @@ namespace DerConverter.Asn
 
             result.AddRange(rawData);
 
-            if (indefiniteLength)
+            if (this.UseIndefiniteLengthEncoding)
             {
                 result.Add(0x00);
                 result.Add(0x00);
