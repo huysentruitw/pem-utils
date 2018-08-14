@@ -10,6 +10,8 @@ namespace DerConverter.Asn
 
         public abstract object Value { get; }
 
+        public bool UseIndefiniteLengthEncoding { get; set; } = false;
+
         protected DerAsnType(DerAsnTypeTag tag)
         {
             Tag = tag;
@@ -20,8 +22,24 @@ namespace DerConverter.Asn
             var rawData = InternalGetBytes();
             var result = new List<byte>();
             result.Add((byte)Tag);
-            result.AddRange(rawData.Length.ToDerLengthBytes());
+
+            if (this.UseIndefiniteLengthEncoding)
+            {
+                result.Add(0x80);
+            }
+            else
+            {
+                result.AddRange(rawData.Length.ToDerLengthBytes());
+            }
+
             result.AddRange(rawData);
+
+            if (this.UseIndefiniteLengthEncoding)
+            {
+                result.Add(0x00);
+                result.Add(0x00);
+            }
+
             return result.ToArray();
         }
 
