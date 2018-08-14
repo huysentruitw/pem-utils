@@ -18,31 +18,22 @@ namespace DerConverter.Asn
         public DerAsnUtcTime(DateTimeOffset time, bool includeSeconds = true)
             : base(DerAsnTypeTag.UtcTime)
         {
+            string timeZoneSuffix = "Z";
             string timeAsString = null;
 
-            if (time.Offset == TimeSpan.Zero)
+            if (time.Offset != TimeSpan.Zero)
             {
-                if (includeSeconds)
-                {
-                    timeAsString = $"{time:yyMMddHHmmss}Z";
-                }
-                else
-                {
-                    timeAsString = $"{time:yyMMddHHmm}Z";
-                }
+                var offsetPrefix = time.Offset > TimeSpan.Zero ? '+' : '-';
+                timeZoneSuffix = $"{offsetPrefix}{time.Offset:hhmm}";
+            }
+
+            if (includeSeconds)
+            {
+                timeAsString = $"{time:yyMMddHHmmss}{timeZoneSuffix}";
             }
             else
             {
-                var offsetPrefix = time.Offset > TimeSpan.Zero ? '+' : '-';
-
-                if (includeSeconds)
-                {
-                    timeAsString = $"{time:yyMMddHHmmss}{offsetPrefix}{time.Offset:hhmm}";
-                }
-                else
-                {
-                    timeAsString = $"{time:yyMMddHHmm}{offsetPrefix}{time.Offset:hhmm}";
-                }
+                timeAsString = $"{time:yyMMddHHmm}{timeZoneSuffix}";
             }
 
             var timeBytes = Encoding.ASCII.GetBytes(timeAsString);
