@@ -1,31 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿//using System;
+//using System.Collections.Generic;
 
-namespace DerConverter.Asn
-{
-    public class DerAsnBoolean : DerAsnType
-    {
-        private readonly bool _value;
+//namespace DerConverter.Asn
+//{
+//    public class DerAsnBoolean : DerAsnType<bool>
+//    {
+//        internal DerAsnBoolean(DerAsnIdentifier identifier, Queue<byte> data)
+//            : base(identifier, data)
+//        {
+//        }
 
-        internal DerAsnBoolean(Queue<byte> rawData)
-            : base(DerAsnTypeTag.Boolean)
-        {
-            if (rawData == null) throw new ArgumentNullException(nameof(rawData));
-            if (rawData.Count != 1) throw new ArgumentException("Boolean-type must contain one data byte", nameof(rawData));
-            _value = rawData.Dequeue() != 0;
-        }
+//        public DerAsnBoolean(bool value)
+//            : base(identifier, value)
+//        {
+//        }
 
-        public DerAsnBoolean(bool value)
-            : base(DerAsnTypeTag.Boolean)
-        {
-            _value = value;
-        }
+//        protected override bool DecodeValue(Queue<byte> data)
+//        {
+//            throw new NotImplementedException();
+//        }
 
-        public override object Value => _value;
-
-        protected override byte[] InternalGetBytes()
-        {
-            return new[] { _value ? (byte)0xFF : (byte)0x00 };
-        }
-    }
-}
+//        protected override byte[] EncodeValue(bool value)
+//        {
+//            throw new NotImplementedException();
+//        }
+//    }
+//}
