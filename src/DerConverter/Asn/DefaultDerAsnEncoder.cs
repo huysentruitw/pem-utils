@@ -6,7 +6,7 @@ namespace DerConverter.Asn
     {
         public virtual void Dispose() { }
 
-        public virtual byte[] Encode(DerAsnType data)
+        public virtual byte[] Encode(DerAsnType asnType)
         {
             throw new NotImplementedException();
         }

@@ -4,6 +4,6 @@ namespace DerConverter.Asn
 {
     public interface IDerAsnEncoder : IDisposable
     {
-        byte[] Encode(DerAsnType data);
+        byte[] Encode(DerAsnType asnType);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using DerConverter.Asn;
+using DerConverter.Asn.KnownTypes;
 using NUnit.Framework;
 
 namespace DerConverter.Tests.Asn
@@ -49,7 +50,7 @@ namespace DerConverter.Tests.Asn
         [Test]
         public void RegisterType_PassNullAsTypeConstructor_ShouldThrowArgumentNullException()
         {
-            var identifier = DerAsnIdentifiers.Universal.Boolean;
+            var identifier = DerAsnIdentifiers.Primitive.Boolean;
             var decoder = new DefaultDerAsnDecoder();
             var ex = Assert.Throws<ArgumentNullException>(() => decoder.RegisterType(identifier, null));
             Assert.That(ex.ParamName, Is.EqualTo("typeConstructor"));
@@ -58,7 +59,7 @@ namespace DerConverter.Tests.Asn
         [Test]
         public void RegisterType_RegisterSameTypeTwice_ReplaceSetToFalse_ShouldThrowInvalidOperationException()
         {
-            var identifier = DerAsnIdentifiers.Universal.Boolean;
+            var identifier = DerAsnIdentifiers.Primitive.Boolean;
             var decoder = new DefaultDerAsnDecoder();
             decoder.RegisterType(identifier, (_, __, ___) => null);
             var ex = Assert.Throws<InvalidOperationException>(() => decoder.RegisterType(identifier, (_, __, ___) => null));
@@ -68,7 +69,7 @@ namespace DerConverter.Tests.Asn
         [Test]
         public void RegisterType_RegisterSameTypeTwice_ReplaceSetToTrue_ShouldNotThrowException()
         {
-            var identifier = DerAsnIdentifiers.Universal.Boolean;
+            var identifier = DerAsnIdentifiers.Primitive.Boolean;
             var decoder = new DefaultDerAsnDecoder();
             decoder.RegisterType(identifier, (_, __, ___) => null);
             Assert.DoesNotThrow(() => decoder.RegisterType(identifier, (_, __, ___) => null, true));

@@ -10,26 +10,26 @@ namespace DerConverter
 
         public static Func<IDerAsnEncoder> DefaultEncoder { get; set; } = () => new DefaultDerAsnEncoder();
 
-        public static DerAsnType Decode(byte[] data)
+        public static DerAsnType Decode(byte[] rawData)
         {
-            if (data == null) throw new ArgumentNullException(nameof(data));
-            if (!data.Any()) throw new ArgumentException("Data cannot be empty", nameof(data));
+            if (rawData == null) throw new ArgumentNullException(nameof(rawData));
+            if (!rawData.Any()) throw new ArgumentException("Data cannot be empty", nameof(rawData));
             if (DefaultDecoder == null) throw new ArgumentNullException(nameof(DefaultDecoder));
 
             using (var decoder = DefaultDecoder())
             {
-                return decoder.Decode(data);
+                return decoder.Decode(rawData);
             }
         }
 
-        public static byte[] Encode(DerAsnType data)
+        public static byte[] Encode(DerAsnType asnType)
         {
-            if (data == null) throw new ArgumentNullException(nameof(data));
+            if (asnType == null) throw new ArgumentNullException(nameof(asnType));
             if (DefaultEncoder == null) throw new ArgumentNullException(nameof(DefaultEncoder));
 
             using (var encoder = DefaultEncoder())
             {
-                return encoder.Encode(data);
+                return encoder.Encode(asnType);
             }
         }
     }

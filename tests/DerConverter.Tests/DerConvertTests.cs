@@ -11,18 +11,18 @@ namespace DerConverter.Tests
         #region Decode
 
         [Test]
-        public void Decode_NullAsData_ShouldThrowArgumentNullException()
+        public void Decode_NullAsRawData_ShouldThrowArgumentNullException()
         {
             var ex = Assert.Throws<ArgumentNullException>(() => DerConvert.Decode(null));
-            Assert.That(ex.ParamName, Is.EqualTo("data"));
+            Assert.That(ex.ParamName, Is.EqualTo("rawData"));
         }
 
         [Test]
-        public void Decode_EmptyDataArray_ShouldThrowArgumentException()
+        public void Decode_EmptyRawDataArray_ShouldThrowArgumentException()
         {
             var ex = Assert.Throws<ArgumentException>(() => DerConvert.Decode(new byte[] { }));
             Assert.That(ex.Message, Does.StartWith("Data cannot be empty"));
-            Assert.That(ex.ParamName, Is.EqualTo("data"));
+            Assert.That(ex.ParamName, Is.EqualTo("rawData"));
         }
 
         [Test]
@@ -49,16 +49,16 @@ namespace DerConverter.Tests
         #region Encode
 
         [Test]
-        public void Encode_NullAsData_ShouldThrowArgumentNullException()
+        public void Encode_NullAsAsnType_ShouldThrowArgumentNullException()
         {
             var ex = Assert.Throws<ArgumentNullException>(() => DerConvert.Encode(null));
-            Assert.That(ex.ParamName, Is.EqualTo("data"));
+            Assert.That(ex.ParamName, Is.EqualTo("asnType"));
         }
 
         [Test]
         public void Encode_NoDefaultEncoder_ShouldThrowArgumentNullException()
         {
-            var typeMock = new Mock<DerAsnType>(DerAsnIdentifiers.Universal.Boolean);
+            var typeMock = new Mock<DerAsnType>(DerAsnIdentifiers.Primitive.Boolean);
             DerConvert.DefaultEncoder = null;
             var ex = Assert.Throws<ArgumentNullException>(() => DerConvert.Encode(typeMock.Object));
             Assert.That(ex.ParamName, Is.EqualTo("DefaultEncoder"));
@@ -67,7 +67,7 @@ namespace DerConverter.Tests
         [Test]
         public void Encode_ShouldForwardCallToEncoder_ShouldDisposeEncoder()
         {
-            var typeMock = new Mock<DerAsnType>(DerAsnIdentifiers.Universal.Boolean);
+            var typeMock = new Mock<DerAsnType>(DerAsnIdentifiers.Primitive.Boolean);
             var encoderMock = new Mock<IDerAsnEncoder>();
             DerConvert.DefaultEncoder = () => encoderMock.Object;
             DerConvert.Encode(typeMock.Object);

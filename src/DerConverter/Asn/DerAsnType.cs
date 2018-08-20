@@ -12,14 +12,16 @@ namespace DerConverter.Asn
         {
             Identifier = identifier;
         }
+
+        public abstract byte[] Encode();
     }
 
     public abstract class DerAsnType<TValue> : DerAsnType
     {
-        protected DerAsnType(DerAsnIdentifier identifier, Queue<byte> data)
+        protected DerAsnType(DerAsnIdentifier identifier, Queue<byte> rawData)
             : base(identifier)
         {
-            Value = DecodeValue(data);
+            Value = DecodeValue(rawData);
         }
 
         protected DerAsnType(DerAsnIdentifier identifier, TValue value)
@@ -28,7 +30,9 @@ namespace DerConverter.Asn
             Value = value;
         }
 
-        protected abstract TValue DecodeValue(Queue<byte> data);
+        public override byte[] Encode() => EncodeValue((TValue)Value);
+
+        protected abstract TValue DecodeValue(Queue<byte> rawData);
 
         protected abstract byte[] EncodeValue(TValue value);
     }
