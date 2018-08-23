@@ -8,7 +8,7 @@ namespace DerConverter.Tests.Asn.KnownTypes
     public class DerAsnBooleanTests
     {
         [Test]
-        public void DerAsnBoolean_Constructor_ShouldDecodeCorrectly()
+        public void Constructor_ShouldDecodeCorrectly()
         {
             var boolean = new DerAsnBoolean(null, DerAsnIdentifiers.Primitive.Boolean, Q.New << 0x00);
             Assert.That(boolean.Value, Is.False);
@@ -18,7 +18,7 @@ namespace DerConverter.Tests.Asn.KnownTypes
         }
 
         [Test]
-        public void DerAsnBoolean_Encode_ShouldEncodeCorrectly()
+        public void Encode_ShouldEncodeCorrectly()
         {
             var boolean = new DerAsnBoolean(false);
             Assert.That(boolean.Encode(null), Is.EqualTo(new byte[] { 0x00 }));
@@ -28,7 +28,7 @@ namespace DerConverter.Tests.Asn.KnownTypes
         }
 
         [Test]
-        public void DerAsnBoolean_Constructor_ShouldSetUniversalIdentifier()
+        public void Constructor_ShouldSetUniversalIdentifier()
         {
             var boolean = new DerAsnBoolean(false);
             Assert.That(boolean.Identifier, Is.EqualTo(DerAsnIdentifiers.Primitive.Boolean));
