@@ -92,6 +92,7 @@ namespace DerConverter.Asn
         protected virtual void RegisterKnownTypes()
         {
             RegisterGenericType(DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.Boolean, (decoder, identifier, data) => new DerAsnBoolean(decoder, identifier, data));
+            RegisterGenericType(DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.Integer, (decoder, identifier, data) => new DerAsnInteger(decoder, identifier, data));
         }
 
         protected virtual TypeConstructor FindTypeConstructor(DerAsnIdentifier identifier)

@@ -14,6 +14,9 @@ namespace DerConverter.Tests.Asn
 
             var data = encoder.Encode(new DerAsnBoolean(true));
             Assert.That(data, Is.EqualTo(new byte[] { 0x01, 0x01, 0xFF }));
+
+            data = encoder.Encode(new DerAsnInteger(0x10));
+            Assert.That(data, Is.EqualTo(new byte[] { 0x02, 0x01, 0x10 }));
         }
     }
 }

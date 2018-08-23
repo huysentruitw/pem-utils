@@ -15,6 +15,9 @@ namespace DerConverter.Tests.Asn
 
             var booleanType = new byte[] { 0x01, 0x01, 0xFF };
             Assert.That(decoder.Decode(booleanType), Is.InstanceOf<DerAsnBoolean>());
+
+            var integerType = new byte[] { 0x02, 0x01, 0x10 };
+            Assert.That(decoder.Decode(integerType), Is.InstanceOf<DerAsnInteger>());
         }
 
         [Test]
