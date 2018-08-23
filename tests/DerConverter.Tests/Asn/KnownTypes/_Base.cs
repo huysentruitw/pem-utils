@@ -11,6 +11,9 @@ namespace DerConverter.Tests.Asn.KnownTypes
     public abstract class Base<TDerAsnType, TValue>
         where TDerAsnType : DerAsnType<TValue>
     {
+        private readonly ConstructorInfo _valueConstructor;
+        private readonly ConstructorInfo _decodeConstructor;
+
         protected readonly DerAsnIdentifier Identifier;
         protected readonly Mock<IDerAsnDecoder> DecoderMock;
         protected readonly Mock<IDerAsnEncoder> EncoderMock;
@@ -20,6 +23,13 @@ namespace DerConverter.Tests.Asn.KnownTypes
             Identifier = identifier;
             DecoderMock = new Mock<IDerAsnDecoder>();
             EncoderMock = new Mock<IDerAsnEncoder>();
+
+            _valueConstructor = typeof(TDerAsnType).GetConstructor(new[] { typeof(TValue) });
+            _decodeConstructor = typeof(TDerAsnType).GetConstructor(
+                types: new[] { typeof(IDerAsnDecoder), typeof(DerAsnIdentifier), typeof(Queue<byte>) },
+                bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance,
+                modifiers: null,
+                binder: null);
         }
 
         [SetUp]
@@ -32,29 +42,22 @@ namespace DerConverter.Tests.Asn.KnownTypes
         [Test]
         public void ValueConstructor_ShouldSetIdentifier()
         {
-            var constructor = typeof(TDerAsnType).GetConstructor(new[] { typeof(TValue) });
-            Assert.That(constructor, Is.Not.Null, $"No value constructor found for {typeof(TDerAsnType).Name}");
-            var type = (TDerAsnType)constructor.Invoke(new object[] { default(TValue) });
+            Assert.That(_valueConstructor, Is.Not.Null, $"No value constructor found for {typeof(TDerAsnType).Name}");
+            var type = (TDerAsnType)_valueConstructor.Invoke(new object[] { default(TValue) });
             Assert.That(type.Identifier, Is.EqualTo(Identifier));
         }
 
         public virtual void DecodeConstructor_ShouldDecodeCorrectly(TValue expectedValue, params int[] rawData)
         {
-            var constructor = typeof(TDerAsnType).GetConstructor(
-                types: new[] { typeof(IDerAsnDecoder), typeof(DerAsnIdentifier), typeof(Queue<byte>) },
-                bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance,
-                modifiers: null,
-                binder: null);
-            Assert.That(constructor, Is.Not.Null, $"No decode constructor found for {typeof(TDerAsnType).Name}");
-            var type = (TDerAsnType)constructor.Invoke(new object[] { DecoderMock.Object, Identifier, new Queue<byte>(rawData.Select(x => (byte)x)) });
+            Assert.That(_decodeConstructor, Is.Not.Null, $"No decode constructor found for {typeof(TDerAsnType).Name}");
+            var type = (TDerAsnType)_decodeConstructor.Invoke(new object[] { DecoderMock.Object, Identifier, new Queue<byte>(rawData.Select(x => (byte)x)) });
             Assert.That(type.Value, Is.EqualTo(expectedValue));
         }
 
         public virtual void Encode_ShouldEncodeCorrectly(TValue value, params int[] expectedRawData)
         {
-            var constructor = typeof(TDerAsnType).GetConstructor(new[] { typeof(TValue) });
-            Assert.That(constructor, Is.Not.Null, $"No value constructor found for {typeof(TDerAsnType).Name}");
-            var type = (TDerAsnType)constructor.Invoke(new object[] { value });
+            Assert.That(_valueConstructor, Is.Not.Null, $"No value constructor found for {typeof(TDerAsnType).Name}");
+            var type = (TDerAsnType)_valueConstructor.Invoke(new object[] { value });
             Assert.That(type.Encode(EncoderMock.Object), Is.EqualTo(expectedRawData.Select(x => (byte)x)));
         }
     }
