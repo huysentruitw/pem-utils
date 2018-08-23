@@ -10,10 +10,10 @@ namespace DerConverter.Tests.Asn.KnownTypes
         [Test]
         public void DerAsnBoolean_Constructor_ShouldDecodeCorrectly()
         {
-            var boolean = new DerAsnBoolean(null, DerAsnIdentifiers.Primitive.Boolean, this.Q(0x00));
+            var boolean = new DerAsnBoolean(null, DerAsnIdentifiers.Primitive.Boolean, Q.New << 0x00);
             Assert.That(boolean.Value, Is.False);
 
-            boolean = new DerAsnBoolean(null, DerAsnIdentifiers.Primitive.Boolean, this.Q(0xFF));
+            boolean = new DerAsnBoolean(null, DerAsnIdentifiers.Primitive.Boolean, Q.New << 0xFF);
             Assert.That(boolean.Value, Is.True);
         }
 
