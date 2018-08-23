@@ -5,33 +5,22 @@ using NUnit.Framework;
 namespace DerConverter.Tests.Asn.KnownTypes
 {
     [TestFixture]
-    public class DerAsnBooleanTests
+    public class DerAsnBooleanTests : Base<DerAsnBoolean, bool>
     {
-        [Test]
-        public void Constructor_ShouldSetUniversalIdentifier()
+        public DerAsnBooleanTests() : base(DerAsnIdentifiers.Primitive.Boolean) { }
+
+        [TestCase(false, 0x00)]
+        [TestCase(true, 0xFF)]
+        public override void DecodeConstructor_ShouldDecodeCorrectly(bool expectedValue, params int[] rawData)
         {
-            var boolean = new DerAsnBoolean(false);
-            Assert.That(boolean.Identifier, Is.EqualTo(DerAsnIdentifiers.Primitive.Boolean));
+            base.DecodeConstructor_ShouldDecodeCorrectly(expectedValue, rawData);
         }
 
-        [Test]
-        public void Constructor_ShouldDecodeCorrectly()
+        [TestCase(false, 0x00)]
+        [TestCase(true, 0xFF)]
+        public override void Encode_ShouldEncodeCorrectly(bool value, params int[] expectedRawData)
         {
-            var boolean = new DerAsnBoolean(null, DerAsnIdentifiers.Primitive.Boolean, Q.New << 0x00);
-            Assert.That(boolean.Value, Is.False);
-
-            boolean = new DerAsnBoolean(null, DerAsnIdentifiers.Primitive.Boolean, Q.New << 0xFF);
-            Assert.That(boolean.Value, Is.True);
-        }
-
-        [Test]
-        public void Encode_ShouldEncodeCorrectly()
-        {
-            var boolean = new DerAsnBoolean(false);
-            Assert.That(boolean.Encode(null), Is.EqualTo(new byte[] { 0x00 }));
-
-            boolean = new DerAsnBoolean(true);
-            Assert.That(boolean.Encode(null), Is.EqualTo(new byte[] { 0xFF }));
+            base.Encode_ShouldEncodeCorrectly(value, expectedRawData);
         }
     }
 }
