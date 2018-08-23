@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DerConverter.Asn.KnownTypes;
 
 namespace DerConverter.Asn
 {
@@ -90,8 +91,7 @@ namespace DerConverter.Asn
 
         protected virtual void RegisterKnownTypes()
         {
-            //RegisterGenericType(DerAsnIdentifiers.Universal.BitString, (decoder, identifier, data) => new DerAsnBitString(identifier, data));
-
+            RegisterGenericType(DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.Boolean, (decoder, identifier, data) => new DerAsnBoolean(decoder, identifier, data));
         }
 
         protected virtual TypeConstructor FindTypeConstructor(DerAsnIdentifier identifier)

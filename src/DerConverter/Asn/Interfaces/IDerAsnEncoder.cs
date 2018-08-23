@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DerConverter.Asn
 {
     public interface IDerAsnEncoder : IDisposable
     {
-        byte[] Encode(DerAsnType asnType);
+        IEnumerable<byte> Encode(DerAsnType asnType);
     }
 }

@@ -11,7 +11,10 @@ namespace DerConverter.Tests.Asn
         [Test]
         public void Decode_ShouldDecodeAllKnownDefaultTypes()
         {
-            // TODO Try to decode all known types
+            var decoder = new DefaultDerAsnDecoder();
+
+            var booleanType = new byte[] { 0x01, 0x01, 0xFF };
+            Assert.That(decoder.Decode(booleanType), Is.InstanceOf<DerAsnBoolean>());
         }
 
         [Test]

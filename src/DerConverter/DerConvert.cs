@@ -29,7 +29,7 @@ namespace DerConverter
 
             using (var encoder = DefaultEncoder())
             {
-                return encoder.Encode(asnType);
+                return encoder.Encode(asnType).ToArray();
             }
         }
     }
