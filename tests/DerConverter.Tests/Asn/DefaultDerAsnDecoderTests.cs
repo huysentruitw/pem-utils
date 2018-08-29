@@ -8,16 +8,13 @@ namespace DerConverter.Tests.Asn
     [TestFixture]
     public class DefaultDerAsnDecoderTests
     {
-        [Test]
-        public void Decode_ShouldDecodeAllKnownDefaultTypes()
+        [TestCase(typeof(DerAsnBoolean), new byte[] { 0x01, 0x01, 0xFF })]
+        [TestCase(typeof(DerAsnInteger), new byte[] { 0x02, 0x01, 0x10 })]
+        [TestCase(typeof(DerAsnBitString), new byte[] { 0x03, 0x07, 0x04, 0x0A, 0x3B, 0x5F, 0x29, 0x1C, 0xD0 })]
+        public void Decode_ShouldDecodeAllKnownDefaultTypes(Type expectedType, byte[] rawData)
         {
             var decoder = new DefaultDerAsnDecoder();
-
-            var booleanType = new byte[] { 0x01, 0x01, 0xFF };
-            Assert.That(decoder.Decode(booleanType), Is.InstanceOf<DerAsnBoolean>());
-
-            var integerType = new byte[] { 0x02, 0x01, 0x10 };
-            Assert.That(decoder.Decode(integerType), Is.InstanceOf<DerAsnInteger>());
+            Assert.That(decoder.Decode(rawData), Is.InstanceOf(expectedType));
         }
 
         [Test]
