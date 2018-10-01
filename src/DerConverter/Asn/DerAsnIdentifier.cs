@@ -19,6 +19,11 @@ namespace DerConverter.Asn
             Tag = tag;
         }
 
+        public override string ToString()
+        {
+            return $"[0x{Tag:X2}, {TagClass}, {EncodingType}]";
+        }
+
         public override bool Equals(object obj)
         {
             var identifier = obj as DerAsnIdentifier;
