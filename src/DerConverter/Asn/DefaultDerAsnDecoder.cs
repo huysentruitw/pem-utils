@@ -94,6 +94,7 @@ namespace DerConverter.Asn
             RegisterGenericType(DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.Boolean, (decoder, identifier, data) => new DerAsnBoolean(decoder, identifier, data));
             RegisterGenericType(DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.Integer, (decoder, identifier, data) => new DerAsnInteger(decoder, identifier, data));
             RegisterGenericType(DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.BitString, (decoder, identifier, data) => new DerAsnBitString(decoder, identifier, data));
+            RegisterGenericType(DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.OctetString, (decoder, identifier, data) => new DerAsnOctetString(decoder, identifier, data));
         }
 
         protected virtual TypeConstructor FindTypeConstructor(DerAsnIdentifier identifier)

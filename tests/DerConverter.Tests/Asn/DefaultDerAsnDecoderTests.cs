@@ -11,6 +11,7 @@ namespace DerConverter.Tests.Asn
         [TestCase(typeof(DerAsnBoolean), new byte[] { 0x01, 0x01, 0xFF })]
         [TestCase(typeof(DerAsnInteger), new byte[] { 0x02, 0x01, 0x10 })]
         [TestCase(typeof(DerAsnBitString), new byte[] { 0x03, 0x07, 0x04, 0x0A, 0x3B, 0x5F, 0x29, 0x1C, 0xD0 })]
+        [TestCase(typeof(DerAsnOctetString), new byte[] { 0x04, 0x08, 0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF })]
         public void Decode_ShouldDecodeAllKnownDefaultTypes(Type expectedType, byte[] rawData)
         {
             var decoder = new DefaultDerAsnDecoder();

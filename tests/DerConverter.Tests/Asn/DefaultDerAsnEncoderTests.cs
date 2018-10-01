@@ -21,6 +21,9 @@ namespace DerConverter.Tests.Asn
 
             data = encoder.Encode(new DerAsnBitString(new BitArray(new[] { false, true, false, true, true, true, false, false, false, true })));
             Assert.That(data, Is.EqualTo(new byte[] { 0x03, 0x03, 0x06, 0x5C, 0x40 }));
+
+            data = encoder.Encode(new DerAsnOctetString(new byte[] { 0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF }));
+            Assert.That(data, Is.EqualTo(new byte[] { 0x04, 0x08, 0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF }));
         }
     }
 }
