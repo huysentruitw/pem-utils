@@ -8,10 +8,7 @@ namespace DerConverter.Tests.Asn.KnownTypes
     [TestFixture]
     public class DerAsnBitStringTests : Base<DerAsnBitString, BitArray>
     {
-        public DerAsnBitStringTests()
-            : base(DerAsnIdentifiers.Primitive.BitString)
-        {
-        }
+        public DerAsnBitStringTests() : base(DerAsnIdentifiers.Primitive.BitString) { }
 
         [TestCase(new bool[0], 0x00)]
         [TestCase(new[] { false, true, false, true, true, false, true, false }, 0x00, 0x5A)]
