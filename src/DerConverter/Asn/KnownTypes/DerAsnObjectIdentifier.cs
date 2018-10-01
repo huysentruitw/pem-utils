@@ -16,7 +16,7 @@ namespace DerConverter.Asn.KnownTypes
         {
         }
 
-        public DerAsnObjectIdentifier(int[] value)
+        public DerAsnObjectIdentifier(params int[] value)
             : this(DerAsnIdentifiers.Primitive.ObjectIdentifier, value)
         {
         }
