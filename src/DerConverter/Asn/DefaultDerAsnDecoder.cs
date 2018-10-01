@@ -48,6 +48,25 @@ namespace DerConverter.Asn
         }
 
         /// <summary>
+        /// Decode a single ASN.1 type encoded in the given byte queue.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <returns>The decoded ASN.1 type (primitive or constructed set/sequence).</returns>
+        public DerAsnType Decode(Queue<byte> data)
+        {
+            var identifier = DerAsnIdentifier.Decode(data);
+
+            var typeConstructor = FindTypeConstructor(identifier)
+                ?? throw new InvalidOperationException($"No type registered for identifier {identifier}");
+
+            var length = DerAsnLength.Decode(data);
+            if (data.Count < length)
+                throw new InvalidOperationException($"Expected {length} bytes to decode type with identifier {identifier} but got {data.Count} bytes");
+
+            return typeConstructor(this, identifier, data);
+        }
+
+        /// <summary>
         /// Registers a generic, class independent type.
         /// </summary>
         /// <param name="encodingType">The encoding type.</param>
@@ -97,6 +116,8 @@ namespace DerConverter.Asn
             RegisterGenericType(DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.OctetString, (decoder, identifier, data) => new DerAsnOctetString(decoder, identifier, data));
             RegisterGenericType(DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.Null, (decoder, identifier, data) => new DerAsnNull(decoder, identifier, data));
             RegisterGenericType(DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.ObjectIdentifier, (decoder, identifier, data) => new DerAsnObjectIdentifier(decoder, identifier, data));
+
+            RegisterGenericType(DerAsnEncodingType.Constructed, DerAsnKnownTypeTags.Constructed.Sequence, (decoder, identifier, data) => new DerAsnSequence(decoder, identifier, data));
         }
 
         protected virtual TypeConstructor FindTypeConstructor(DerAsnIdentifier identifier)
@@ -109,20 +130,6 @@ namespace DerConverter.Asn
                 return classSpecificTypeConstructor;
 
             return null;
-        }
-
-        private DerAsnType Decode(Queue<byte> data)
-        {
-            var identifier = DerAsnIdentifier.Decode(data);
-
-            var typeConstructor = FindTypeConstructor(identifier)
-                ?? throw new InvalidOperationException($"No type registered for identifier {identifier}");
-
-            var length = DerAsnLength.Decode(data);
-            if (data.Count != length)
-                throw new InvalidOperationException($"Expected {length} bytes to decode type with identifier {identifier} but got {data.Count} bytes");
-
-            return typeConstructor(this, identifier, data);
         }
 
         private class TypeKey

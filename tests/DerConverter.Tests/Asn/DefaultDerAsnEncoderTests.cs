@@ -30,6 +30,14 @@ namespace DerConverter.Tests.Asn
 
             data = encoder.Encode(new DerAsnObjectIdentifier(new int[] { 1, 2, 840, 113549 }));
             Assert.That(data, Is.EqualTo(new byte[] { 0x06, 0x06, 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D }));
+
+            data = encoder.Encode(new DerAsnSequence(new DerAsnType[]
+            {
+                new DerAsnNull(),
+                new DerAsnObjectIdentifier(1, 2, 840, 113549, 1, 1, 1),
+                new DerAsnNull()
+            }));
+            Assert.That(data, Is.EqualTo(new byte[] { 0x30, 0x0F, 0x05, 0x00, 0x06, 0x09, 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x01, 0x05, 0x00 }));
         }
     }
 }
