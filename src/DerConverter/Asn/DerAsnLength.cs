@@ -11,6 +11,11 @@ namespace DerConverter.Asn
             Length = length;
         }
 
+        public override string ToString()
+        {
+            return Length.ToString();
+        }
+
         public override bool Equals(object obj)
             => obj is DerAsnLength length && Length == length.Length;
 
