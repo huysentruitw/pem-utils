@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using DerConverter.Asn;
+using DerConverter.Asn.KnownTypes;
 using Moq;
 using NUnit.Framework;
 
@@ -24,7 +26,10 @@ namespace DerConverter.Tests.Asn.KnownTypes
             DecoderMock = new Mock<IDerAsnDecoder>();
             EncoderMock = new Mock<IDerAsnEncoder>();
 
-            _valueConstructor = typeof(TDerAsnType).GetConstructor(new[] { typeof(TValue) });
+            _valueConstructor = typeof(TDerAsnType) == typeof(DerAsnNull)
+                ? typeof(TDerAsnType).GetConstructor(Array.Empty<Type>())
+                : typeof(TDerAsnType).GetConstructor(new[] { typeof(TValue) });
+
             _decodeConstructor = typeof(TDerAsnType).GetConstructor(
                 types: new[] { typeof(IDerAsnDecoder), typeof(DerAsnIdentifier), typeof(Queue<byte>) },
                 bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance,
@@ -43,7 +48,9 @@ namespace DerConverter.Tests.Asn.KnownTypes
         public void ValueConstructor_ShouldSetIdentifier()
         {
             Assert.That(_valueConstructor, Is.Not.Null, $"No value constructor found for {typeof(TDerAsnType).Name}");
-            var type = (TDerAsnType)_valueConstructor.Invoke(new object[] { default(TValue) });
+            var type = typeof(TDerAsnType) == typeof(DerAsnNull)
+                ? (TDerAsnType)_valueConstructor.Invoke(Array.Empty<object>())
+                : (TDerAsnType)_valueConstructor.Invoke(new object[] { default(TValue) });
             Assert.That(type.Identifier, Is.EqualTo(Identifier));
         }
 
@@ -57,7 +64,9 @@ namespace DerConverter.Tests.Asn.KnownTypes
         public virtual void Encode_ShouldEncodeCorrectly(TValue value, params int[] expectedRawData)
         {
             Assert.That(_valueConstructor, Is.Not.Null, $"No value constructor found for {typeof(TDerAsnType).Name}");
-            var type = (TDerAsnType)_valueConstructor.Invoke(new object[] { value });
+            var type = typeof(TDerAsnType) == typeof(DerAsnNull)
+                ? (TDerAsnType)_valueConstructor.Invoke(Array.Empty<object>())
+                : (TDerAsnType)_valueConstructor.Invoke(new object[] { value });
             Assert.That(type.Encode(EncoderMock.Object), Is.EqualTo(expectedRawData.Select(x => (byte)x)));
         }
     }
