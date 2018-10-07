@@ -26,32 +26,44 @@ namespace DerConverter.Asn.KnownTypes
             var unusedLowerBitsInLastByte = rawData.Dequeue();
             var data = rawData.DequeueAll().ToArray();
 
-            var result = new BitArray(data.Length * 8 - unusedLowerBitsInLastByte);
-            for (int i = 0; i < result.Length; i++)
-                result[i] = (data[i / 8] << (i % 8) & 0x80) != 0;
+            if (unusedLowerBitsInLastByte > 0)
+            {
+                byte rest = 0;
+                for (int i = 0; i < data.Length; i++)
+                {
+                    var @byte = data[i];
+                    data[i] = (byte)((@byte >> unusedLowerBitsInLastByte) | rest);
+                    rest = (byte)(@byte << (8 - unusedLowerBitsInLastByte));
+                }
+            }
 
-            return result;
+            return new BitArray(data.Reverse().ToArray())
+            {
+                Length = data.Length * 8 - unusedLowerBitsInLastByte
+            };
         }
 
         protected override IEnumerable<byte> EncodeValue(IDerAsnEncoder encoder, BitArray value)
         {
             var unusedLowerBitsInLastByte = (byte)(7 - ((value.Length + 7) % 8));
             yield return unusedLowerBitsInLastByte;
-            byte result = 0;
-            for (int i = 0; i < value.Length; i++)
-            {
-                if (value[i]) result |= (byte)(0x80 >> (i % 8));
-                if (i % 8 == 7)
-                {
-                    yield return result;
-                    result = 0;
-                }
-            }
+
+            var data = new byte[(value.Length + 7) / 8];
+            value.CopyTo(data, 0);
 
             if (unusedLowerBitsInLastByte > 0)
             {
-                yield return result;
+                byte rest = 0;
+                for (int i = 0; i < data.Length; i++)
+                {
+                    var @byte = data[i];
+                    data[i] = (byte)(@byte << unusedLowerBitsInLastByte | rest);
+                    rest = (byte)(@byte >> (8 - unusedLowerBitsInLastByte));
+                }
             }
+
+            foreach (var @byte in data.Reverse())
+                yield return @byte;
         }
     }
 }

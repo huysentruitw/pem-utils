@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using DerConverter.Asn;
 using DerConverter.Asn.KnownTypes;
 using NUnit.Framework;
@@ -28,7 +29,8 @@ namespace DerConverter.Tests.Asn
         public void Encode_DerAsnBitString_ShouldEncodeAllKnownDefaultType()
         {
             var encoder = new DefaultDerAsnEncoder();
-            var data = encoder.Encode(new DerAsnBitString(new BitArray(new[] { false, true, false, true, true, true, false, false, false, true })));
+            var bits = new[] { false, true, false, true, true, true, false, false, false, true };
+            var data = encoder.Encode(new DerAsnBitString(new BitArray(bits.Reverse().ToArray())));
             Assert.That(data, Is.EqualTo(new byte[] { 0x03, 0x03, 0x06, 0x5C, 0x40 }));
         }
 
