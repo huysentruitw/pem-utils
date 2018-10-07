@@ -13,7 +13,6 @@ namespace DerConverter.Tests.Asn.KnownTypes
         [TestCase(@"¯\_(ツ)_/¯", 0xC2, 0xAF, 0x5C, 0x5F, 0x28, 0xE3, 0x83, 0x84, 0x29, 0x5F, 0x2F, 0xC2, 0xAF)]
         public override void DecodeConstructor_ShouldDecodeCorrectly(string expectedValue, params int[] rawData)
         {
-            var d = System.Text.Encoding.UTF8.GetBytes(@"¯\_(ツ)_/¯");
             base.DecodeConstructor_ShouldDecodeCorrectly(expectedValue, rawData);
         }
 
