@@ -10,7 +10,7 @@ namespace DerConverter.Tests.Asn
     public class DefaultDerAsnEncoderTests
     {
         [Test]
-        public void Encode_DerAsnBoolean_ShouldEncodeAllKnownDefaultType()
+        public void Encode_DerAsnBoolean_ShouldEncodeKnownDefaultType()
         {
             var encoder = new DefaultDerAsnEncoder();
             var data = encoder.Encode(new DerAsnBoolean(true));
@@ -18,7 +18,7 @@ namespace DerConverter.Tests.Asn
         }
 
         [Test]
-        public void Encode_DerAsnInteger_ShouldEncodeAllKnownDefaultType()
+        public void Encode_DerAsnInteger_ShouldEncodeKnownDefaultType()
         {
             var encoder = new DefaultDerAsnEncoder();
             var data = encoder.Encode(new DerAsnInteger(0x10));
@@ -26,7 +26,7 @@ namespace DerConverter.Tests.Asn
         }
 
         [Test]
-        public void Encode_DerAsnBitString_ShouldEncodeAllKnownDefaultType()
+        public void Encode_DerAsnBitString_ShouldEncodeKnownDefaultType()
         {
             var encoder = new DefaultDerAsnEncoder();
             var bits = new[] { false, true, false, true, true, true, false, false, false, true };
@@ -35,7 +35,7 @@ namespace DerConverter.Tests.Asn
         }
 
         [Test]
-        public void Encode_DerAsnOctetString_ShouldEncodeAllKnownDefaultType()
+        public void Encode_DerAsnOctetString_ShouldEncodeKnownDefaultType()
         {
             var encoder = new DefaultDerAsnEncoder();
             var data = encoder.Encode(new DerAsnOctetString(new byte[] { 0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF }));
@@ -43,7 +43,7 @@ namespace DerConverter.Tests.Asn
         }
 
         [Test]
-        public void Encode_DerAsnNull_ShouldEncodeAllKnownDefaultType()
+        public void Encode_DerAsnNull_ShouldEncodeKnownDefaultType()
         {
             var encoder = new DefaultDerAsnEncoder();
             var data = encoder.Encode(new DerAsnNull());
@@ -51,7 +51,7 @@ namespace DerConverter.Tests.Asn
         }
 
         [Test]
-        public void Encode_DerAsnObjectIdentifier_ShouldEncodeAllKnownDefaultType()
+        public void Encode_DerAsnObjectIdentifier_ShouldEncodeKnownDefaultType()
         {
             var encoder = new DefaultDerAsnEncoder();
             var data = encoder.Encode(new DerAsnObjectIdentifier(new int[] { 1, 2, 840, 113549 }));
@@ -59,7 +59,15 @@ namespace DerConverter.Tests.Asn
         }
 
         [Test]
-        public void Encode_DerAsnSequence_ShouldEncodeAllKnownDefaultType()
+        public void Encode_DerAsnUtf8String_ShouldEncodeKnownDefaultType()
+        {
+            var encoder = new DefaultDerAsnEncoder();
+            var data = encoder.Encode(new DerAsnUtf8String("test"));
+            Assert.That(data, Is.EqualTo(new byte[] { 0x0C, 0x04, 0x74, 0x65, 0x73, 0x74 }));
+        }
+
+        [Test]
+        public void Encode_DerAsnSequence_ShouldEncodeKnownDefaultType()
         {
             var encoder = new DefaultDerAsnEncoder();
             var data = encoder.Encode(new DerAsnSequence(new DerAsnType[]
@@ -72,7 +80,7 @@ namespace DerConverter.Tests.Asn
         }
 
         [Test]
-        public void Encode_DerAsnSet_ShouldEncodeAllKnownDefaultType()
+        public void Encode_DerAsnSet_ShouldEncodeKnownDefaultType()
         {
             var encoder = new DefaultDerAsnEncoder();
             var data = encoder.Encode(new DerAsnSet(new DerAsnType[]

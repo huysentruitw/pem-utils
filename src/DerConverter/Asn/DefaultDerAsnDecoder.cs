@@ -117,6 +117,7 @@ namespace DerConverter.Asn
             RegisterGenericType(DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.OctetString, (decoder, identifier, data) => new DerAsnOctetString(decoder, identifier, data));
             RegisterGenericType(DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.Null, (decoder, identifier, data) => new DerAsnNull(decoder, identifier, data));
             RegisterGenericType(DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.ObjectIdentifier, (decoder, identifier, data) => new DerAsnObjectIdentifier(decoder, identifier, data));
+            RegisterGenericType(DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.Utf8String, (decoder, identifier, data) => new DerAsnUtf8String(decoder, identifier, data));
 
             RegisterGenericType(DerAsnEncodingType.Constructed, DerAsnKnownTypeTags.Constructed.Sequence, (decoder, identifier, data) => new DerAsnSequence(decoder, identifier, data));
             RegisterGenericType(DerAsnEncodingType.Constructed, DerAsnKnownTypeTags.Constructed.Set, (decoder, identifier, data) => new DerAsnSet(decoder, identifier, data));
