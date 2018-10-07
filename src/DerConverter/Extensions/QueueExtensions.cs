@@ -5,9 +5,9 @@ namespace DerConverter
 {
     internal static class QueueExtensions
     {
-        public static IEnumerable<T> Dequeue<T>(this Queue<T> queue, int count)
+        public static IEnumerable<T> Dequeue<T>(this Queue<T> queue, long count)
         {
-            for (int i = 0; i < count; i++) yield return queue.Dequeue();
+            for (long i = 0; i < count; i++) yield return queue.Dequeue();
         }
 
         public static IEnumerable<T> DequeueAll<T>(this Queue<T> queue)
