@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
+using System.Linq;
+using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
 using DerConverter;
 using DerConverter.Asn;
+using DerConverter.Asn.KnownTypes;
 
 namespace PemUtils
 {
@@ -16,9 +20,8 @@ namespace PemUtils
 
         public PemWriter(Stream stream, int maximumLineLength = 64, bool disposeStream = false, Encoding encoding = null)
         {
-            if (stream == null) throw new ArgumentNullException(nameof(stream));
             if (maximumLineLength < 32) throw new ArgumentOutOfRangeException(nameof(maximumLineLength), "Length should be bigger than or equal to 32");
-            _stream = stream;
+            _stream = stream ?? throw new ArgumentNullException(nameof(stream));
             _maximumLineLength = maximumLineLength;
             _disposeStream = disposeStream;
             _encoding = encoding ?? Encoding.UTF8;
@@ -35,18 +38,20 @@ namespace PemUtils
         {
             var innerSequence = new DerAsnSequence(new DerAsnType[]
             {
-                new DerAsnInteger(parameters.Modulus, true),
-                new DerAsnInteger(parameters.Exponent, true)
+                new DerAsnInteger(ToBigInteger(parameters.Modulus)),
+                new DerAsnInteger(ToBigInteger(parameters.Exponent))
             });
+
+            var innerSequenceData = DerConvert.Encode(innerSequence);
 
             var outerSequence = new DerAsnSequence(new DerAsnType[]
             {
                 new DerAsnSequence(new DerAsnType[]
                 {
-                    new DerAsnObjectIdentifier("1.2.840.113549.1.1.1"), // rsaEncryption http://www.oid-info.com/get/1.2.840.113549.1.1.1
+                    new DerAsnObjectIdentifier(1, 2, 840, 113549, 1, 1, 1), // rsaEncryption http://www.oid-info.com/get/1.2.840.113549.1.1.1
                     new DerAsnNull()
                 }),
-                new DerAsnBitString(DerConvert.Encode(innerSequence))
+                new DerAsnBitString(ToBitArray(innerSequenceData))
             });
 
             Write(outerSequence, PemFormat.Public);
@@ -58,15 +63,15 @@ namespace PemUtils
         {
             var sequence = new DerAsnSequence(new DerAsnType[]
             {
-                new DerAsnInteger(new byte[] { 0x00 }, true),   // Version
-                new DerAsnInteger(parameters.Modulus, true),
-                new DerAsnInteger(parameters.Exponent, true),
-                new DerAsnInteger(parameters.D, true),
-                new DerAsnInteger(parameters.P, true),
-                new DerAsnInteger(parameters.Q, true),
-                new DerAsnInteger(parameters.DP, true),
-                new DerAsnInteger(parameters.DQ, true),
-                new DerAsnInteger(parameters.InverseQ, true)
+                new DerAsnInteger(ToBigInteger(new byte[] { 0x00 })),   // Version
+                new DerAsnInteger(ToBigInteger(parameters.Modulus)),
+                new DerAsnInteger(ToBigInteger(parameters.Exponent)),
+                new DerAsnInteger(ToBigInteger(parameters.D)),
+                new DerAsnInteger(ToBigInteger(parameters.P)),
+                new DerAsnInteger(ToBigInteger(parameters.Q)),
+                new DerAsnInteger(ToBigInteger(parameters.DP)),
+                new DerAsnInteger(ToBigInteger(parameters.DQ)),
+                new DerAsnInteger(ToBigInteger(parameters.InverseQ))
             });
 
             Write(sequence, PemFormat.Rsa);
@@ -90,5 +95,15 @@ namespace PemUtils
             using (var writer = new StreamWriter(_stream, _encoding, 4096, true))
                 writer.Write(pem.ToString());
         }
+
+        private static BigInteger ToBigInteger(byte[] data)
+        {
+            var extendedData = new byte[data.Length + 1];
+            data.CopyTo(extendedData, 1);
+            return new BigInteger(extendedData.Reverse().ToArray());
+        }
+
+        private static BitArray ToBitArray(byte[] data)
+            => new BitArray(data.Reverse().ToArray());
     }
 }
