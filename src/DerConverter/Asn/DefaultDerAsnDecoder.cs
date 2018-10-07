@@ -119,6 +119,7 @@ namespace DerConverter.Asn
             RegisterGenericType(DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.ObjectIdentifier, (decoder, identifier, data) => new DerAsnObjectIdentifier(decoder, identifier, data));
 
             RegisterGenericType(DerAsnEncodingType.Constructed, DerAsnKnownTypeTags.Constructed.Sequence, (decoder, identifier, data) => new DerAsnSequence(decoder, identifier, data));
+            RegisterGenericType(DerAsnEncodingType.Constructed, DerAsnKnownTypeTags.Constructed.Set, (decoder, identifier, data) => new DerAsnSet(decoder, identifier, data));
         }
 
         protected virtual TypeConstructor FindTypeConstructor(DerAsnIdentifier identifier)
