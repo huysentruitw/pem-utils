@@ -7,7 +7,7 @@ namespace DerConverter.Asn
     {
         public DerAsnIdentifier Identifier { get; private set; }
 
-        public object Value { get; protected set; }
+        public virtual object Value { get; protected set; }
 
         protected DerAsnType(DerAsnIdentifier identifier)
         {
@@ -31,8 +31,14 @@ namespace DerConverter.Asn
             Value = value;
         }
 
+        public new TValue Value
+        {
+            get { return (TValue)base.Value; }
+            set { base.Value = value; }
+        }
+
         public override byte[] Encode(IDerAsnEncoder encoder)
-            => EncodeValue(encoder, (TValue)Value).ToArray();
+            => EncodeValue(encoder, Value).ToArray();
 
         protected abstract TValue DecodeValue(IDerAsnDecoder decoder, Queue<byte> rawData);
 
