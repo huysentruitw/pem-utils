@@ -63,7 +63,8 @@ namespace DerConverter.Asn
             if (data.Count < length)
                 throw new InvalidOperationException($"Expected {length} bytes to decode type with identifier {identifier} but got {data.Count} bytes");
 
-            return typeConstructor(this, identifier, data);
+            var dataForType = new Queue<byte>(data.Dequeue(length.Length));
+            return typeConstructor(this, identifier, dataForType);
         }
 
         /// <summary>
