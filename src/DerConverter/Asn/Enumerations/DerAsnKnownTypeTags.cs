@@ -22,7 +22,7 @@
             public static readonly long PrintableString = 0x13;
             public static readonly long TeletexString = 0x14;
             public static readonly long VideotexString = 0x15;
-            public static readonly long Ia5tring = 0x16;
+            public static readonly long Ia5String = 0x16;
             public static readonly long UtcTime = 0x17;
             public static readonly long GeneralizedTime = 0x18;
             public static readonly long GraphicString = 0x19;

@@ -13,7 +13,7 @@
             public static readonly DerAsnIdentifier Utf8String = new DerAsnIdentifier(DerAsnTagClass.Universal, DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.Utf8String);
             public static readonly DerAsnIdentifier PrintableString = new DerAsnIdentifier(DerAsnTagClass.Universal, DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.PrintableString);
             public static readonly DerAsnIdentifier TeletexString = new DerAsnIdentifier(DerAsnTagClass.Universal, DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.TeletexString);
-            public static readonly DerAsnIdentifier Ia5tring = new DerAsnIdentifier(DerAsnTagClass.Universal, DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.Ia5tring);
+            public static readonly DerAsnIdentifier Ia5String = new DerAsnIdentifier(DerAsnTagClass.Universal, DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.Ia5String);
             public static readonly DerAsnIdentifier UtcTime = new DerAsnIdentifier(DerAsnTagClass.Universal, DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.UtcTime);
             public static readonly DerAsnIdentifier BmpString = new DerAsnIdentifier(DerAsnTagClass.Universal, DerAsnEncodingType.Primitive, DerAsnKnownTypeTags.Primitive.BmpString);
         }

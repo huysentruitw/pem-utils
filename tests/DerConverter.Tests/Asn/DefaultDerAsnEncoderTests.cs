@@ -75,6 +75,14 @@ namespace DerConverter.Tests.Asn
         }
 
         [Test]
+        public void Encode_DerAsnIa5String_ShouldEncodeKnownDefaultType()
+        {
+            var encoder = new DefaultDerAsnEncoder();
+            var data = encoder.Encode(new DerAsnIa5String("test"));
+            Assert.That(data, Is.EqualTo(new byte[] { 0x16, 0x04, 0x74, 0x65, 0x73, 0x74 }));
+        }
+
+        [Test]
         public void Encode_DerAsnSequence_ShouldEncodeKnownDefaultType()
         {
             var encoder = new DefaultDerAsnEncoder();
