@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using DerConverter.Asn;
 using DerConverter.Asn.KnownTypes;
@@ -72,6 +73,14 @@ namespace DerConverter.Tests.Asn
             var encoder = new DefaultDerAsnEncoder();
             var data = encoder.Encode(new DerAsnPrintableString("test"));
             Assert.That(data, Is.EqualTo(new byte[] { 0x13, 0x04, 0x74, 0x65, 0x73, 0x74 }));
+        }
+
+        [Test]
+        public void Encode_DerAsnUtcTime_ShouldEncodeKnownDefaultType()
+        {
+            var encoder = new DefaultDerAsnEncoder();
+            var data = encoder.Encode(new DerAsnUtcTime(DateTimeOffset.Parse("Mon, 6 May 2013 23:45:40Z")));
+            Assert.That(data, Is.EqualTo(new byte[] { 0x17, 0x0D, 0x31, 0x33, 0x30, 0x35, 0x30, 0x36, 0x32, 0x33, 0x34, 0x35, 0x34, 0x30, 0x5A }));
         }
 
         [Test]
