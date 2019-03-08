@@ -15,11 +15,11 @@ Currently files with these headers are supported:
 * `----- BEGIN PUBLIC KEY -----` / `----- END PUBLIC KEY -----`
 * `----- BEGIN RSA PRIVATE KEY -----` / `----- END RSA PRIVATE KEY -----`
 
-## Get it on NuGet
+## Get it on [NuGet](https://www.nuget.org/packages/PemUtils/)
 
     PM> Install-Package PemUtils
 
-or if you only want a DER converter:
+or if you only want a [DER converter](https://www.nuget.org/packages/DerConverter/):
 
     PM> Install-Package DerConverter
 
