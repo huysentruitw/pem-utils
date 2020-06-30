@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -16,12 +16,17 @@ namespace PemUtils
         private readonly Stream _stream;
         private readonly bool _disposeStream;
         private Encoding _encoding;
+        private readonly StringReader _stringReader;
 
         public PemReader(Stream stream, bool disposeStream = false, Encoding encoding = null)
         {
             _stream = stream ?? throw new ArgumentNullException(nameof(stream));
             _disposeStream = disposeStream;
             _encoding = encoding ?? Encoding.UTF8;
+        }
+        
+        public PemReader(StringReader stringReader) {
+            _stringReader = stringReader;
         }
 
         public void Dispose()
@@ -47,8 +52,11 @@ namespace PemUtils
 
         private PemParts ReadPemParts()
         {
-            using (var reader = new StreamReader(_stream, _encoding, true, 4096, true))
+            if (_stringReader == null) {
+                using var reader = new StreamReader(_stream, _encoding, true, 4096, true);
                 return ExtractPemParts(reader.ReadToEnd());
+            }
+            return ExtractPemParts(_stringReader.ReadToEnd());
         }
 
         private static PemParts ExtractPemParts(string pem)
